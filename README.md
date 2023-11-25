@@ -3,7 +3,8 @@
 상품을 자유롭게 살수 있는 사용자들을 위한 e commerce 플랫폼 백엔드 서버
 
 ## ERD
-![image](https://github.com/woojinpark43/ecommerce/assets/23221982/d32070d5-e1ef-4eb9-ab1b-bcf98dd98235)
+![image](https://github.com/woojinpark43/ecommerce/assets/23221982/5b7c5e11-d063-4a77-a522-435f68e33bbc)
+
 
 
 ## 프로젝트 기능 및 설계
