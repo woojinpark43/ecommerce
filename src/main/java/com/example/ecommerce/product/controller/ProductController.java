@@ -7,7 +7,6 @@ import com.example.ecommerce.product.exception.ProductNotFoundException;
 import com.example.ecommerce.product.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
@@ -21,13 +20,12 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ProductController {
     private final ProductService productService;
-    private final ErrorUtility errorUtility;
 
     @PostMapping("/product/register")
     public ResponseEntity<?> register(@RequestBody @Valid ProductDto productRegister, Errors errors) {
 
         if (errors.hasErrors()) {
-            return errorUtility.errorValidationResponseEntity(errors);
+            return ErrorUtility.errorValidationResponseEntity(errors, HttpStatus.BAD_REQUEST);
         }
 
         LocalDateTime currentDateTime = LocalDateTime.now();
@@ -42,15 +40,10 @@ public class ProductController {
         return ResponseEntity.ok(productRegister);
     }
 
-    @GetMapping("/product/items")
-    public ResponseEntity<?> getItems(final Pageable pageable) {
-        Page<Product> result = productService.getAllProducts(pageable);
+    @GetMapping("/product/items/size/{size}")
+    public ResponseEntity<?> getItemsWithPage(@PathVariable Integer size) {
+        Page<Product> result = productService.getAllProducts(size);
         return ResponseEntity.ok(result);
-    }
-
-    @ExceptionHandler(ProductNotFoundException.class)
-    public ResponseEntity<?> handlerProductNotFoundException(ProductNotFoundException exception) {
-        return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
     @GetMapping("/product/items/{id}")
@@ -65,7 +58,7 @@ public class ProductController {
             , Errors errors) {
 
         if (errors.hasErrors()) {
-            return errorUtility.errorValidationResponseEntity(errors);
+            return ErrorUtility.errorValidationResponseEntity(errors, HttpStatus.BAD_REQUEST);
         }
 
         ProductDto product = productService.updateProductById(id, productUpdate)
@@ -92,5 +85,10 @@ public class ProductController {
     public ResponseEntity<?> searchKeyword(@RequestParam String search) {
         List<String> result = productService.getProductNamesByKeyword(search);
         return ResponseEntity.ok(result);
+    }
+
+    @ExceptionHandler(ProductNotFoundException.class)
+    public ResponseEntity<?> handlerProductNotFoundException(ProductNotFoundException exception) {
+        return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST);
     }
 }

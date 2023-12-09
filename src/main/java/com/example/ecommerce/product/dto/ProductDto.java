@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @Builder
 @Data
 public class ProductDto {
-    private int product_id;
+    private int productId;
     @NotBlank(message = "product name is required")
     private String name;
     @NotNull(message = "product price is required")

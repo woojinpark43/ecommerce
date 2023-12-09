@@ -9,6 +9,7 @@ import org.apache.commons.collections4.Trie;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -19,7 +20,6 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Service
 public class ProductServiceImpl implements ProductService {
-    private final Trie trie;
     private final ProductRepository productRepository;
 
     @Override
@@ -37,14 +37,14 @@ public class ProductServiceImpl implements ProductService {
 
         productRepository.save(newProduct);
 
-        productData.setProduct_id(newProduct.getProduct_id());
+        productData.setProductId(newProduct.getProductId());
 
         return true;
     }
 
     @Override
-    public Page<Product> getAllProducts(Pageable pageable) {
-        return productRepository.findAll(pageable);
+    public Page<Product> getAllProducts(Integer size) {
+        return productRepository.findAll(PageRequest.of(0, size, Sort.Direction.ASC, "productId"));
     }
 
     @Override
@@ -127,7 +127,7 @@ public class ProductServiceImpl implements ProductService {
                 .detail(product.getDetail())
                 .name(product.getName())
                 .orderedAt(product.getOrderedAt())
-                .product_id(product.getProduct_id())
+                .productId(product.getProductId())
                 .price(product.getPrice())
                 .updateAt(product.getUpdateAt())
                 .build());
