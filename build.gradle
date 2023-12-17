@@ -23,7 +23,6 @@ repositories {
 }
 
 dependencies {
-//	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'mysql:mysql-connector-java:8.0.23'
 	implementation group: 'com.auth0', name: 'java-jwt', version: '3.13.0'
 	implementation 'org.springframework.boot:spring-boot-starter-security'

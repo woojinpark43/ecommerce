@@ -15,7 +15,6 @@ import javax.persistence.Id;
 @AllArgsConstructor
 @Entity(name = "User")
 @Builder
-//public class UserEntity implements UserDetails {
 public class UserEntity {
     @Id
     private String email;
